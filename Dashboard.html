@@ -12,5 +12,67 @@
     <!-- Aquí embeberemos la hoja de Google Sheets -->
     <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vStqOPGyVozuj7aISTPe_E5xCEIu-Ge4lBbMziHQGYv_EtvcJ_c6ACpiX6pSXyWwBm4DnHSsAoMRzYw/pubhtml?gid=991101570&single=true" width="100%" height="600"></iframe>
 
+<script>
+    // Esta función se ejecuta cuando se cambia el año
+    function updateData() {
+        var year = document.getElementById('year').value;
+        console.log("Año seleccionado:", year);
+        
+        // Aquí puedes agregar la lógica para cargar o filtrar los datos según el año
+        fetch('https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/archivo.csv')
+            .then(response => response.text())
+            .then(data => {
+                const rows = Papa.parse(data, { header: true }).data;
+                // Filtra los datos según el año seleccionado
+                let filteredData = rows.filter(row => row.Year == year); // Suponiendo que "Year" es una columna en tus datos
+                
+                // Actualiza el contenido de la tabla o gráfico con los datos filtrados
+                updateTable(filteredData);  // Asegúrate de tener la función updateTable implementada
+                updateChart(filteredData);  // Asegúrate de tener la función updateChart implementada
+            });
+    }
+
+    // Función para actualizar la tabla
+    function updateTable(data) {
+        // Actualiza los datos en la tabla (código para llenar la tabla)
+    }
+
+    // Función para actualizar el gráfico
+    function updateChart(data) {
+        // Actualiza los gráficos con los nuevos datos
+    }
+</script>
+    
 </body>
 </html>
+
+<!-- Selector de Año -->
+<label for="year">Selecciona el año:</label>
+<select id="year" onchange="updateData()">
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+</select>
+
+function updateTable(data) {
+    // Limpiar tabla existente
+    const table = document.getElementById('dataTable');
+    table.innerHTML = "";  // Limpia la tabla actual
+
+    // Crear encabezados
+    let headerRow = table.insertRow();
+    let headers = ['Nombre', 'Tipo Organización', 'Promedio H_INDEX', 'Promedio CITATIONS'];
+    headers.forEach(header => {
+        let cell = headerRow.insertCell();
+        cell.textContent = header;
+    });
+
+    // Insertar las filas con los datos filtrados
+    data.forEach(row => {
+        let rowElement = table.insertRow();
+        rowElement.insertCell().textContent = row.Nombre;
+        rowElement.insertCell().textContent = row.Tipo_Organizacion;
+        rowElement.insertCell().textContent = row.Promedio_H_INDEX;
+        rowElement.insertCell().textContent = row.Promedio_CITATIONS;
+    });
+}
