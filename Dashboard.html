@@ -4,79 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Dashboard</title>
-    <!-- Incluir la librería PapaParse para manejar CSV -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
 
     <h1>Dashboard de Google Sheets</h1>
     
-    <!-- Selector de Año -->
-    <label for="year">Selecciona el año:</label>
-    <select id="year" onchange="updateData()">
-        <option value="Sin Año">Sin Año</option>
-        <option value="2020">2020</option>
-        <option value="2021">2021</option>
-        <option value="2022">2022</option>
-    </select>
-
-    <!-- Tabla donde se mostrarán los datos filtrados -->
-    <table id="dataTable" border="1">
-        <thead>
-            <tr>
-                <th>Sex</th>
-                <th>Tipo Organización</th>
-                <th>Promedio H_INDEX</th>
-                <th>Promedio CITATIONS</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Aquí se insertarán las filas dinámicamente -->
-        </tbody>
-    </table>
-
-    <script>
-        // Esta función se ejecuta cuando se cambia el año
-        function updateData() {
-            var year = document.getElementById('year').value;
-            console.log("Año seleccionado:", year);
-
-            // URL del archivo CSV en tu repositorio
-            fetch('https://jafetarauz16.github.io/Tratamiento_Dashboard/data.csv') 
-                .then(response => response.text())
-                .then(data => {
-                    // Parsear el archivo CSV
-                    const rows = Papa.parse(data, { header: true }).data;
-                    console.log("Datos:", rows);
-
-                    // Filtrar los datos según el año seleccionado
-                    let filteredData = rows.filter(row => row.Año === year || year === 'Sin Año');
-
-                    // Actualizar la tabla con los datos filtrados
-                    updateTable(filteredData);
-                });
-        }
-
-        // Función para actualizar la tabla con los datos filtrados
-        function updateTable(data) {
-            // Limpiar tabla existente
-            const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
-            tableBody.innerHTML = "";  // Limpiar las filas actuales
-
-            // Insertar las filas con los datos filtrados
-            data.forEach(row => {
-                let rowElement = tableBody.insertRow();
-                rowElement.insertCell().textContent = row.Sex;
-                rowElement.insertCell().textContent = row.Tipo_Organizacion;
-                rowElement.insertCell().textContent = row['Promedio H_INDEX'];
-                rowElement.insertCell().textContent = row['Promedio CITATIONS'];
-            });
-        }
-
-        // Cargar los datos al iniciar la página
-        updateData();
-    </script>
+    <!-- Aquí embeberemos la hoja de Google Sheets -->
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vStqOPGyVozuj7aISTPe_E5xCEIu-Ge4lBbMziHQGYv_EtvcJ_c6ACpiX6pSXyWwBm4DnHSsAoMRzYw/pubhtml?gid=991101570&single=true" width="100%" height="600"></iframe>
 
 </body>
 </html>
-
